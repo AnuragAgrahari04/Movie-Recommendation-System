@@ -1,22 +1,26 @@
-...
 # recommend.py
 import joblib
 import logging
+import os
 
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
     format='[%(asctime)s] %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("recommend.log", encoding="utf-8"),
+        logging.FileHandler("../recommend.log", encoding="utf-8"),  # Also fix log path
         logging.StreamHandler()
     ]
 )
 
+BASE_DIR = os.path.dirname(__file__)
+df_path = os.path.join(BASE_DIR, "df_cleaned.pkl")
+sim_path = os.path.join(BASE_DIR, "cosine_sim.pkl")
+
 logging.info("🔁 Loading data...")
 try:
-    df = joblib.load('df_cleaned.pkl')
-    cosine_sim = joblib.load('cosine_sim.pkl')
+    df = joblib.load(df_path)
+    cosine_sim = joblib.load(sim_path)
     logging.info("✅ Data loaded successfully.")
 except Exception as e:
     logging.error("❌ Failed to load required files: %s", str(e))
@@ -40,4 +44,3 @@ def recommend_movies(movie_name, top_n=5):
     result_df.index.name = "S.No."
 
     return result_df
-...

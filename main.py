@@ -1,11 +1,16 @@
-# app.py
 import json
 import streamlit as st
 from recommend import df, recommend_movies
 from omdb_utils import get_movie_details
+import os
 
+# --- FIX HERE ---
+import os
+BASE_DIR = os.path.dirname(__file__)
+config_path = os.path.join(BASE_DIR, "config.json")
+config = json.load(open(config_path))
 
-config = json.load(open("config.json"))
+# ----------------
 
 # OMDB api key
 OMDB_API_KEY = config["OMDB_API_KEY"]
